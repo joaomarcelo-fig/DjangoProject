@@ -1,4 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
+<<<<<<< HEAD
+from .models import Item, Category
+from .forms import ItemForm, CategoryForm
+
+=======
 from .models import Item, Publisher
 from .forms import ItemForm, PublisherForm
 def home(request):
@@ -7,6 +12,7 @@ def home(request):
         'item_count': Item.objects.count(),
     }
     return render(request, 'app/home.html', context)
+>>>>>>> developer
 
 # Views para Item
 def item_list(request):
@@ -41,6 +47,42 @@ def item_delete(request, pk):
         return redirect('item_list')
     return render(request, 'app/item_confirm_delete.html', {'item': item})
 
+<<<<<<< HEAD
+#CRUD CATEGORY
+
+def category_list(request):
+    categories = Category.objects.all()
+    return render(request, 'app/category_list.html', {'categories': categories})
+
+def category_create(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('category_list')
+    else:
+        form = CategoryForm()
+    return render(request, 'app/category_form.html', {'form': form})
+
+def category_update(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect('category_list')
+    else:
+        form = CategoryForm(instance=category)
+    return render(request, 'app/category_form.html', {'form': form})
+
+def category_delete(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+    if request.method == 'POST':
+        category.delete()
+        return redirect('category_list')
+    return render(request, 'app/category_confirm_delete.html', {'category': category})
+
+=======
 # Views para Publisher
 def publisher_list(request):
     publishers = Publisher.objects.all()
@@ -74,3 +116,4 @@ def publisher_delete(request, pk):
         publisher.delete()
         return redirect('publisher_list')
     return render(request, 'app/publisher_confirm_delete.html', {'publisher': publisher})
+>>>>>>> developer
