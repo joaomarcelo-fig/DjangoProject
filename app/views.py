@@ -1,18 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
-<<<<<<< HEAD
-from .models import Item, Category
-from .forms import ItemForm, CategoryForm
+from .models import Item, Author, Publisher
+from .forms import ItemForm, AuthorForm, PublisherForm
 
-=======
-from .models import Item, Publisher
-from .forms import ItemForm, PublisherForm
+# View da página inicial
 def home(request):
     context = {
         'publisher_count': Publisher.objects.count(),
         'item_count': Item.objects.count(),
     }
     return render(request, 'app/home.html', context)
->>>>>>> developer
 
 # Views para Item
 def item_list(request):
@@ -47,42 +43,39 @@ def item_delete(request, pk):
         return redirect('item_list')
     return render(request, 'app/item_confirm_delete.html', {'item': item})
 
-<<<<<<< HEAD
-#CRUD CATEGORY
+# Views para Author
+def author_list(request):
+    authors = Author.objects.all()
+    return render(request, 'app/author_list.html', {'authors': authors})
 
-def category_list(request):
-    categories = Category.objects.all()
-    return render(request, 'app/category_list.html', {'categories': categories})
-
-def category_create(request):
+def author_create(request):
     if request.method == 'POST':
-        form = CategoryForm(request.POST)
+        form = AuthorForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('category_list')
+            return redirect('author_list')
     else:
-        form = CategoryForm()
-    return render(request, 'app/category_form.html', {'form': form})
+        form = AuthorForm()
+    return render(request, 'app/author_form.html', {'form': form})
 
-def category_update(request, pk):
-    category = get_object_or_404(Category, pk=pk)
+def author_update(request, pk):
+    author = get_object_or_404(Author, pk=pk)
     if request.method == 'POST':
-        form = CategoryForm(request.POST, instance=category)
+        form = AuthorForm(request.POST, instance=author)
         if form.is_valid():
             form.save()
-            return redirect('category_list')
+            return redirect('author_list')
     else:
-        form = CategoryForm(instance=category)
-    return render(request, 'app/category_form.html', {'form': form})
+        form = AuthorForm(instance=author)
+    return render(request, 'app/author_form.html', {'form': form})
 
-def category_delete(request, pk):
-    category = get_object_or_404(Category, pk=pk)
+def author_delete(request, pk):
+    author = get_object_or_404(Author, pk=pk)
     if request.method == 'POST':
-        category.delete()
-        return redirect('category_list')
-    return render(request, 'app/category_confirm_delete.html', {'category': category})
+        author.delete()
+        return redirect('author_list')
+    return render(request, 'app/author_confirm_delete.html', {'author': author})
 
-=======
 # Views para Publisher
 def publisher_list(request):
     publishers = Publisher.objects.all()
@@ -97,7 +90,6 @@ def publisher_create(request):
     else:
         form = PublisherForm()
     return render(request, 'app/publisher_form.html', {'form': form})
-
 
 def publisher_update(request, pk):
     publisher = get_object_or_404(Publisher, pk=pk)
@@ -116,4 +108,3 @@ def publisher_delete(request, pk):
         publisher.delete()
         return redirect('publisher_list')
     return render(request, 'app/publisher_confirm_delete.html', {'publisher': publisher})
->>>>>>> developer
