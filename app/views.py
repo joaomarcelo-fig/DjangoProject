@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Item, Author, Publisher
-from .forms import ItemForm, AuthorForm, PublisherForm
+from .models import Item, Category, Author, Publisher
+from .forms import ItemForm, CategoryForm, PublisherForm, AuthorForm
 
-# View da página inicial
+
+
 def home(request):
     context = {
         'publisher_count': Publisher.objects.count(),
         'item_count': Item.objects.count(),
+        'category_count': Category.objects.count(),
+        'author_count': Author.objects.count(),
     }
     return render(request, 'app/home.html', context)
 
@@ -43,38 +46,38 @@ def item_delete(request, pk):
         return redirect('item_list')
     return render(request, 'app/item_confirm_delete.html', {'item': item})
 
-# Views para Author
-def author_list(request):
-    authors = Author.objects.all()
-    return render(request, 'app/author_list.html', {'authors': authors})
+#CRUD CATEGORY
+def category_list(request):
+    categories = Category.objects.all()
+    return render(request, 'app/category_list.html', {'categories': categories})
 
-def author_create(request):
+def category_create(request):
     if request.method == 'POST':
-        form = AuthorForm(request.POST)
+        form = CategoryForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('author_list')
+            return redirect('category_list')
     else:
-        form = AuthorForm()
-    return render(request, 'app/author_form.html', {'form': form})
+        form = CategoryForm()
+    return render(request, 'app/category_form.html', {'form': form})
 
-def author_update(request, pk):
-    author = get_object_or_404(Author, pk=pk)
+def category_update(request, pk):
+    category = get_object_or_404(Category, pk=pk)
     if request.method == 'POST':
-        form = AuthorForm(request.POST, instance=author)
+        form = CategoryForm(request.POST, instance=category)
         if form.is_valid():
             form.save()
-            return redirect('author_list')
+            return redirect('category_list')
     else:
-        form = AuthorForm(instance=author)
-    return render(request, 'app/author_form.html', {'form': form})
+        form = CategoryForm(instance=category)
+    return render(request, 'app/category_form.html', {'form': form})
 
-def author_delete(request, pk):
-    author = get_object_or_404(Author, pk=pk)
+def category_delete(request, pk):
+    category = get_object_or_404(Category, pk=pk)
     if request.method == 'POST':
-        author.delete()
-        return redirect('author_list')
-    return render(request, 'app/author_confirm_delete.html', {'author': author})
+        category.delete()
+        return redirect('category_list')
+    return render(request, 'app/category_confirm_delete.html', {'category': category})
 
 # Views para Publisher
 def publisher_list(request):
@@ -108,3 +111,36 @@ def publisher_delete(request, pk):
         publisher.delete()
         return redirect('publisher_list')
     return render(request, 'app/publisher_confirm_delete.html', {'publisher': publisher})
+#CRUD author
+def author_list(request):
+    authors = Author.objects.all()
+    return render(request, 'app/author_list.html', {'authors': authors})
+
+
+def author_create(request):
+    if request.method == 'POST':
+        form = AuthorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('author_list')
+    else:
+        form = AuthorForm()
+    return render(request, 'app/author_form.html', {'form': form})
+
+def author_update(request, pk):
+    author = get_object_or_404(Author, pk=pk)
+    if request.method == 'POST':
+        form = AuthorForm(request.POST, instance=author)
+        if form.is_valid():
+            form.save()
+            return redirect('author_list')
+    else:
+        form = AuthorForm(instance=author)
+    return render(request, 'app/author_form.html', {'form': form})
+
+def author_delete(request, pk):
+    author = get_object_or_404(Author, pk=pk)
+    if request.method == 'POST':
+        author.delete()
+        return redirect('author_list')
+    return render(request, 'app/author_confirm_delete.html', {'author': author})
