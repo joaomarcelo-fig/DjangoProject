@@ -1,5 +1,5 @@
 from django import forms
-from .models import Item, Category, Publisher
+from .models import Item, Publisher, Category, Author
 
 class ItemForm(forms.ModelForm):
     class Meta:
@@ -14,4 +14,8 @@ class PublisherForm(forms.ModelForm):
     class Meta:
         model = Publisher
         fields = ['name', 'description']
-
+        
+class AuthorForm(forms.ModelForm):
+    class Meta:
+        model = Author
+        fields = ['name', 'description']
