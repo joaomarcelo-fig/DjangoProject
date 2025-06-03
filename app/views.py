@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-<<<<<<< HEAD
-from .models import Item, Category
-from .forms import ItemForm, CategoryForm
+from .models import Item, Category, Publisher
+from .forms import ItemForm, CategoryForm, PublisherForm
 
-=======
-from .models import Item, Publisher
+def home(request):
+    return render(request, 'app/home.html')
+
 from .forms import ItemForm, PublisherForm
 def home(request):
     context = {
@@ -12,7 +12,6 @@ def home(request):
         'item_count': Item.objects.count(),
     }
     return render(request, 'app/home.html', context)
->>>>>>> developer
 
 # Views para Item
 def item_list(request):
@@ -47,8 +46,6 @@ def item_delete(request, pk):
         return redirect('item_list')
     return render(request, 'app/item_confirm_delete.html', {'item': item})
 
-<<<<<<< HEAD
-#CRUD CATEGORY
 
 def category_list(request):
     categories = Category.objects.all()
@@ -82,7 +79,6 @@ def category_delete(request, pk):
         return redirect('category_list')
     return render(request, 'app/category_confirm_delete.html', {'category': category})
 
-=======
 # Views para Publisher
 def publisher_list(request):
     publishers = Publisher.objects.all()
@@ -116,4 +112,3 @@ def publisher_delete(request, pk):
         publisher.delete()
         return redirect('publisher_list')
     return render(request, 'app/publisher_confirm_delete.html', {'publisher': publisher})
->>>>>>> developer
